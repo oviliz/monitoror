@@ -5,7 +5,7 @@
 # This script is to generate mocks for pkg directory #
 ######################################################
 
-dirs=("pkg/gogithub" "pkg/gojenkins" "pkg/gopingdom" "pkg/gotravis" "pkg/monitoror/builder")
+dirs=("pkg/gogithub" "pkg/gojenkins" "pkg/gopingdom" "pkg/gotravis" "pkg/monitoror/validator")
 
 # Generate mocks of interfaces find inside directory listed on dirs
 for dir in "${dirs[@]}"; do
