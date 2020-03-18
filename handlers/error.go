@@ -85,7 +85,7 @@ func cacheMiddleware(ctx echo.Context) bool {
 
 	store, ok := value.(cache.Store)
 	if !ok {
-		log.Errorf("unable to cast value in cache.Store")
+		log.Errorf("unable to cast value in cache.store")
 		return false
 	}
 

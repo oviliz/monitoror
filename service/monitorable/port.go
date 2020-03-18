@@ -4,12 +4,12 @@ package monitorable
 
 import (
 	"github.com/monitoror/monitoror/config"
-	monitorableConfig "github.com/monitoror/monitoror/monitorable/config"
-	"github.com/monitoror/monitoror/monitorable/port"
-	portDelivery "github.com/monitoror/monitoror/monitorable/port/delivery/http"
-	portModels "github.com/monitoror/monitoror/monitorable/port/models"
-	portRepository "github.com/monitoror/monitoror/monitorable/port/repository"
-	portUsecase "github.com/monitoror/monitoror/monitorable/port/usecase"
+	monitorableConfig "github.com/monitoror/monitoror/monitorables/config"
+	"github.com/monitoror/monitoror/monitorables/port"
+	portDelivery "github.com/monitoror/monitoror/monitorables/port/delivery/http"
+	portModels "github.com/monitoror/monitoror/monitorables/port/models"
+	portRepository "github.com/monitoror/monitoror/monitorables/port/repository"
+	portUsecase "github.com/monitoror/monitoror/monitorables/port/usecase"
 	"github.com/monitoror/monitoror/service/router"
 )
 
@@ -34,13 +34,13 @@ func (m *portMonitorable) Register(variant string, router router.MonitorableRout
 		usecase := portUsecase.NewPortUsecase(repository)
 		delivery := portDelivery.NewPortDelivery(usecase)
 
-		// RegisterTile route to echo
+		// EnableTile route to echo
 		route := router.Group("/port", variant).GET("/port", delivery.GetPort)
 
-		// RegisterTile data for config hydration
-		configManager.RegisterTile(port.PortTileType, variant, &portModels.PortParams{}, route.Path, conf.InitialMaxDelay)
+		// EnableTile data for config hydration
+		configManager.EnableTile(port.PortTileType, variant, &portModels.PortParams{}, route.Path, conf.InitialMaxDelay)
 	} else {
-		// RegisterTile data for config verify
+		// EnableTile data for config verify
 		configManager.DisableTile(port.PortTileType, variant)
 	}
 

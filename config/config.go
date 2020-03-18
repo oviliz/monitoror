@@ -14,7 +14,7 @@ const DefaultVariant = "default"
 const DefaultInitialMaxDelay = 1700
 
 type (
-	// Config contain backend Configuration
+	// CoreConfig contain backend Configuration
 	Config struct {
 		// --- General Configuration ---
 		Port int    // Default: 8080
@@ -26,7 +26,7 @@ type (
 		// DownstreamCacheExpiration is used to respond after executing the request in case of timeout error.
 		DownstreamCacheExpiration int
 
-		// Monitorable Config
+		// Monitorable CoreConfig
 		Monitorable Monitorable
 	}
 
@@ -39,13 +39,6 @@ type (
 		Jenkins     map[string]*Jenkins
 		AzureDevOps map[string]*AzureDevOps
 		Github      map[string]*Github
-	}
-
-	Ping struct {
-		Count           int
-		Timeout         int // In Millisecond
-		Interval        int // In Millisecond
-		InitialMaxDelay int // In Millisecond
 	}
 
 	Port struct {

@@ -29,8 +29,8 @@ type (
 	}
 )
 
-func NewMonitorableRouter(apiVersion *echo.Group, cm *middlewares.CacheMiddleware) MonitorableRouter {
-	return &router{apiVersion: apiVersion, cacheMiddleware: cm}
+func NewMonitorableRouter(apiVersion *echo.Group, cacheMiddleware *middlewares.CacheMiddleware) MonitorableRouter {
+	return &router{apiVersion: apiVersion, cacheMiddleware: cacheMiddleware}
 }
 
 func (r *router) Group(path, variant string) MonitorableGroup {

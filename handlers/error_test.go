@@ -10,7 +10,7 @@ import (
 	"testing"
 
 	"github.com/monitoror/monitoror/models"
-	"github.com/monitoror/monitoror/monitorable/jenkins"
+	"github.com/monitoror/monitoror/monitorables/jenkins"
 
 	"github.com/jsdidierlaurent/echo-middleware/cache"
 	"github.com/jsdidierlaurent/echo-middleware/cache/mocks"

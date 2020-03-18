@@ -6,12 +6,12 @@ import (
 	"net/url"
 
 	"github.com/monitoror/monitoror/config"
-	monitorableConfig "github.com/monitoror/monitoror/monitorable/config"
-	"github.com/monitoror/monitoror/monitorable/travisci"
-	travisciDelivery "github.com/monitoror/monitoror/monitorable/travisci/delivery/http"
-	travisciModels "github.com/monitoror/monitoror/monitorable/travisci/models"
-	travisciRepository "github.com/monitoror/monitoror/monitorable/travisci/repository"
-	travisciUsecase "github.com/monitoror/monitoror/monitorable/travisci/usecase"
+	monitorableConfig "github.com/monitoror/monitoror/monitorables/config"
+	"github.com/monitoror/monitoror/monitorables/travisci"
+	travisciDelivery "github.com/monitoror/monitoror/monitorables/travisci/delivery/http"
+	travisciModels "github.com/monitoror/monitoror/monitorables/travisci/models"
+	travisciRepository "github.com/monitoror/monitoror/monitorables/travisci/repository"
+	travisciUsecase "github.com/monitoror/monitoror/monitorables/travisci/usecase"
 	"github.com/monitoror/monitoror/service/router"
 )
 
@@ -48,13 +48,13 @@ func (m *travisciMonitorable) Register(variant string, router router.Monitorable
 		usecase := travisciUsecase.NewTravisCIUsecase(repository)
 		delivery := travisciDelivery.NewTravisCIDelivery(usecase)
 
-		// RegisterTile route to echo
+		// EnableTile route to echo
 		route := router.Group("/travisci", variant).GET("/build", delivery.GetBuild)
 
-		// RegisterTile data for config hydration
-		configManager.RegisterTile(travisci.TravisCIBuildTileType, variant, &travisciModels.BuildParams{}, route.Path, conf.InitialMaxDelay)
+		// EnableTile data for config hydration
+		configManager.EnableTile(travisci.TravisCIBuildTileType, variant, &travisciModels.BuildParams{}, route.Path, conf.InitialMaxDelay)
 	} else {
-		// RegisterTile data for config verify
+		// EnableTile data for config verify
 		configManager.DisableTile(travisci.TravisCIBuildTileType, variant)
 	}
 	return enabled

@@ -4,11 +4,11 @@ package monitorable
 
 import (
 	"github.com/monitoror/monitoror/config"
-	monitorableConfig "github.com/monitoror/monitoror/monitorable/config"
-	"github.com/monitoror/monitoror/monitorable/jenkins"
-	jenkinsDelivery "github.com/monitoror/monitoror/monitorable/jenkins/delivery/http"
-	jenkinsModels "github.com/monitoror/monitoror/monitorable/jenkins/models"
-	jenkinsUsecase "github.com/monitoror/monitoror/monitorable/jenkins/usecase"
+	monitorableConfig "github.com/monitoror/monitoror/monitorables/config"
+	"github.com/monitoror/monitoror/monitorables/jenkins"
+	jenkinsDelivery "github.com/monitoror/monitoror/monitorables/jenkins/delivery/http"
+	jenkinsModels "github.com/monitoror/monitoror/monitorables/jenkins/models"
+	jenkinsUsecase "github.com/monitoror/monitoror/monitorables/jenkins/usecase"
 	"github.com/monitoror/monitoror/service/router"
 )
 
@@ -25,11 +25,11 @@ func (m *jenkinsMonitorable) Register(variant string, router router.MonitorableR
 	usecase := jenkinsUsecase.NewJenkinsUsecase()
 	delivery := jenkinsDelivery.NewJenkinsDelivery(usecase)
 
-	// RegisterTile route to echo
+	// EnableTile route to echo
 	route := router.Group("/http", variant).GET("/build", delivery.GetBuild)
 
-	// RegisterTile data for config hydration
-	configManager.RegisterTile(jenkins.JenkinsBuildTileType, variant, &jenkinsModels.BuildParams{}, route.Path, config.DefaultInitialMaxDelay)
+	// EnableTile data for config hydration
+	configManager.EnableTile(jenkins.JenkinsBuildTileType, variant, &jenkinsModels.BuildParams{}, route.Path, config.DefaultInitialMaxDelay)
 	configManager.DisableTile(jenkins.JenkinsMultiBranchTileType, variant)
 
 	return true

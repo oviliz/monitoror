@@ -6,12 +6,12 @@ import (
 	"net/url"
 
 	"github.com/monitoror/monitoror/config"
-	"github.com/monitoror/monitoror/monitorable/azuredevops"
-	azuredevopsDelivery "github.com/monitoror/monitoror/monitorable/azuredevops/delivery/http"
-	azureDevOpsModels "github.com/monitoror/monitoror/monitorable/azuredevops/models"
-	azuredevopsRepository "github.com/monitoror/monitoror/monitorable/azuredevops/repository"
-	azuredevopsUsecase "github.com/monitoror/monitoror/monitorable/azuredevops/usecase"
-	monitorableConfig "github.com/monitoror/monitoror/monitorable/config"
+	"github.com/monitoror/monitoror/monitorables/azuredevops"
+	azuredevopsDelivery "github.com/monitoror/monitoror/monitorables/azuredevops/delivery/http"
+	azureDevOpsModels "github.com/monitoror/monitoror/monitorables/azuredevops/models"
+	azuredevopsRepository "github.com/monitoror/monitoror/monitorables/azuredevops/repository"
+	azuredevopsUsecase "github.com/monitoror/monitoror/monitorables/azuredevops/usecase"
+	monitorableConfig "github.com/monitoror/monitoror/monitorables/config"
 	"github.com/monitoror/monitoror/service/router"
 )
 
@@ -49,16 +49,16 @@ func (m *azuredevopsMonitorable) Register(variant string, router router.Monitora
 		usecase := azuredevopsUsecase.NewAzureDevOpsUsecase(repository)
 		delivery := azuredevopsDelivery.NewAzureDevOpsDelivery(usecase)
 
-		// RegisterTile route to echo
+		// EnableTile route to echo
 		azureGroup := router.Group("/azuredevops", variant)
 		routeBuild := azureGroup.GET("/build", delivery.GetBuild)
 		routeRelease := azureGroup.GET("/release", delivery.GetRelease)
 
-		// RegisterTile data for config hydration
-		configManager.RegisterTile(azuredevops.AzureDevOpsBuildTileType, variant, &azureDevOpsModels.BuildParams{}, routeBuild.Path, conf.InitialMaxDelay)
-		configManager.RegisterTile(azuredevops.AzureDevOpsReleaseTileType, variant, &azureDevOpsModels.ReleaseParams{}, routeRelease.Path, conf.InitialMaxDelay)
+		// EnableTile data for config hydration
+		configManager.EnableTile(azuredevops.AzureDevOpsBuildTileType, variant, &azureDevOpsModels.BuildParams{}, routeBuild.Path, conf.InitialMaxDelay)
+		configManager.EnableTile(azuredevops.AzureDevOpsReleaseTileType, variant, &azureDevOpsModels.ReleaseParams{}, routeRelease.Path, conf.InitialMaxDelay)
 	} else {
-		// RegisterTile data for config verify
+		// EnableTile data for config verify
 		configManager.DisableTile(azuredevops.AzureDevOpsBuildTileType, variant)
 		configManager.DisableTile(azuredevops.AzureDevOpsReleaseTileType, variant)
 	}

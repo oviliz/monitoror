@@ -50,7 +50,7 @@ func NewCacheMiddleware(store cache.Store, downstreamDefaultExpiration, upstream
 func (cm *CacheMiddleware) UpstreamCacheHandler(handle echo.HandlerFunc) echo.HandlerFunc {
 	return cache.CacheHandlerWithConfig(cache.CacheMiddlewareConfig{
 		Store:     &upstreamStore{cm.store, cm.downstreamDefaultExpiration},
-		KeyPrefix: "-", // Hack we need to replace this by real key prefix in Store definition
+		KeyPrefix: "-", // Hack we need to replace this by real key prefix in store definition
 		Expire:    cm.upstreamDefaultExpiration,
 	}, handle)
 }
@@ -59,7 +59,7 @@ func (cm *CacheMiddleware) UpstreamCacheHandler(handle echo.HandlerFunc) echo.Ha
 func (cm *CacheMiddleware) UpstreamCacheHandlerWithExpiration(expire time.Duration, handle echo.HandlerFunc) echo.HandlerFunc {
 	return cache.CacheHandlerWithConfig(cache.CacheMiddlewareConfig{
 		Store:     &upstreamStore{cm.store, cm.downstreamDefaultExpiration},
-		KeyPrefix: "-", // Hack we need to replace this by real key prefix in Store definition
+		KeyPrefix: "-", // Hack we need to replace this by real key prefix in store definition
 		Expire:    expire,
 	}, handle)
 }
@@ -68,7 +68,7 @@ func (cm *CacheMiddleware) UpstreamCacheHandlerWithExpiration(expire time.Durati
 // DOWNSTREAM MIDDLEWARE
 //==============================================================================
 
-//DownstreamStoreMiddleware Provide Downstream Store to all route. Used when route return timeout error
+//DownstreamStoreMiddleware Provide Downstream store to all route. Used when route return timeout error
 func (cm *CacheMiddleware) DownstreamStoreMiddleware() echo.MiddlewareFunc {
 	config := cache.StoreMiddlewareConfig{
 		Store:      cm.store,
@@ -78,7 +78,7 @@ func (cm *CacheMiddleware) DownstreamStoreMiddleware() echo.MiddlewareFunc {
 }
 
 //==============================================================================
-// ResponsesStore methods (implementation of cache.Store)
+// ResponsesStore methods (implementation of cache.store)
 //==============================================================================
 func (c *upstreamStore) Get(key string, value interface{}) error {
 	return c.store.Get(models.UpstreamStoreKeyPrefix+key[1:], value)

@@ -6,12 +6,12 @@ import (
 	"time"
 
 	"github.com/monitoror/monitoror/config"
-	monitorableConfig "github.com/monitoror/monitoror/monitorable/config"
-	"github.com/monitoror/monitoror/monitorable/github"
-	githubDelivery "github.com/monitoror/monitoror/monitorable/github/delivery/http"
-	githubModels "github.com/monitoror/monitoror/monitorable/github/models"
-	githubRepository "github.com/monitoror/monitoror/monitorable/github/repository"
-	githubUsecase "github.com/monitoror/monitoror/monitorable/github/usecase"
+	monitorableConfig "github.com/monitoror/monitoror/monitorables/config"
+	"github.com/monitoror/monitoror/monitorables/github"
+	githubDelivery "github.com/monitoror/monitoror/monitorables/github/delivery/http"
+	githubModels "github.com/monitoror/monitoror/monitorables/github/models"
+	githubRepository "github.com/monitoror/monitoror/monitorables/github/repository"
+	githubUsecase "github.com/monitoror/monitoror/monitorables/github/usecase"
 	"github.com/monitoror/monitoror/service/options"
 	"github.com/monitoror/monitoror/service/router"
 )
@@ -43,17 +43,17 @@ func (m *githubMonitorable) Register(variant string, router router.MonitorableRo
 		usecase := githubUsecase.NewGithubUsecase(repository)
 		delivery := githubDelivery.NewGithubDelivery(usecase)
 
-		// RegisterTile route to echo
+		// EnableTile route to echo
 		azureGroup := router.Group("/github", variant)
 		routeCount := azureGroup.GET("/count", delivery.GetCount, options.WithCustomCacheExpiration(countCacheExpiration))
 		routeChecks := azureGroup.GET("/checks", delivery.GetChecks)
 
-		// RegisterTile data for config hydration
-		configManager.RegisterTile(github.GithubCountTileType, variant, &githubModels.CountParams{}, routeCount.Path, conf.InitialMaxDelay)
-		configManager.RegisterTile(github.GithubChecksTileType, variant, &githubModels.ChecksParams{}, routeChecks.Path, conf.InitialMaxDelay)
-		configManager.RegisterDynamicTile(github.GithubPullRequestTileType, variant, &githubModels.PullRequestParams{}, usecase.PullRequests)
+		// EnableTile data for config hydration
+		configManager.EnableTile(github.GithubCountTileType, variant, &githubModels.CountParams{}, routeCount.Path, conf.InitialMaxDelay)
+		configManager.EnableTile(github.GithubChecksTileType, variant, &githubModels.ChecksParams{}, routeChecks.Path, conf.InitialMaxDelay)
+		configManager.EnableDynamicTile(github.GithubPullRequestTileType, variant, &githubModels.PullRequestParams{}, usecase.PullRequests)
 	} else {
-		// RegisterTile data for config verify
+		// EnableTile data for config verify
 		configManager.DisableTile(github.GithubCountTileType, variant)
 		configManager.DisableTile(github.GithubChecksTileType, variant)
 		configManager.DisableTile(github.GithubPullRequestTileType, variant)

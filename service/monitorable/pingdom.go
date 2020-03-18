@@ -8,12 +8,12 @@ import (
 	"github.com/jsdidierlaurent/echo-middleware/cache"
 
 	"github.com/monitoror/monitoror/config"
-	monitorableConfig "github.com/monitoror/monitoror/monitorable/config"
-	"github.com/monitoror/monitoror/monitorable/pingdom"
-	pingdomDelivery "github.com/monitoror/monitoror/monitorable/pingdom/delivery/http"
-	pingdomModels "github.com/monitoror/monitoror/monitorable/pingdom/models"
-	pingdomRepository "github.com/monitoror/monitoror/monitorable/pingdom/repository"
-	pingdomUsecase "github.com/monitoror/monitoror/monitorable/pingdom/usecase"
+	monitorableConfig "github.com/monitoror/monitoror/monitorables/config"
+	"github.com/monitoror/monitoror/monitorables/pingdom"
+	pingdomDelivery "github.com/monitoror/monitoror/monitorables/pingdom/delivery/http"
+	pingdomModels "github.com/monitoror/monitoror/monitorables/pingdom/models"
+	pingdomRepository "github.com/monitoror/monitoror/monitorables/pingdom/repository"
+	pingdomUsecase "github.com/monitoror/monitoror/monitorables/pingdom/usecase"
 	"github.com/monitoror/monitoror/service/router"
 )
 
@@ -52,14 +52,14 @@ func (m *pingdomMonitorable) Register(variant string, router router.MonitorableR
 		usecase := pingdomUsecase.NewPingdomUsecase(repository, conf, m.store)
 		delivery := pingdomDelivery.NewPingdomDelivery(usecase)
 
-		// RegisterTile route to echo
+		// EnableTile route to echo
 		route := router.Group("/pingdom", variant).GET("/check", delivery.GetCheck)
 
-		// RegisterTile data for config hydration
-		configManager.RegisterTile(pingdom.PingdomCheckTileType, variant, &pingdomModels.CheckParams{}, route.Path, conf.InitialMaxDelay)
-		configManager.RegisterDynamicTile(pingdom.PingdomChecksTileType, variant, &pingdomModels.ChecksParams{}, usecase.Checks)
+		// EnableTile data for config hydration
+		configManager.EnableTile(pingdom.PingdomCheckTileType, variant, &pingdomModels.CheckParams{}, route.Path, conf.InitialMaxDelay)
+		configManager.EnableDynamicTile(pingdom.PingdomChecksTileType, variant, &pingdomModels.ChecksParams{}, usecase.Checks)
 	} else {
-		// RegisterTile data for config verify
+		// EnableTile data for config verify
 		configManager.DisableTile(pingdom.PingdomCheckTileType, variant)
 		configManager.DisableTile(pingdom.PingdomChecksTileType, variant)
 	}
