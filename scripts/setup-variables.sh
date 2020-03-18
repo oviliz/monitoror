@@ -5,6 +5,10 @@
 ## Imported script with 'source' command. ##
 ############################################
 
+# Avoid multiple 'source' calls
+[[ "${_MONITOROR_HAS_SETUP_VARIABLE:-""}" == "yes" ]] && return 0
+_MONITOROR_HAS_SETUP_VARIABLE="yes"
+
 MB_SOURCE_PATH="./cmd/monitoror"
 MB_VERSION_PATH="./VERSION"
 MB_BINARIES_PATH="./binaries"

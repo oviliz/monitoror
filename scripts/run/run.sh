@@ -10,4 +10,13 @@ source ./scripts/setup-variables.sh
 # Set environment (default: development)
 export MO_ENV=${MO_ENV:-$MB_ENVIRONMENT}
 
-go run --ldflags "$MB_GO_LDFLAGS" --tags "$MB_GO_TAGS" "${MB_SOURCE_PATH}"
+# Build and run
+# Avoid firewall issue on Windows
+source ./scripts/build/build.sh
+
+function removeTarget() {
+  rm $target
+}
+trap removeTarget TERM INT
+
+$target
