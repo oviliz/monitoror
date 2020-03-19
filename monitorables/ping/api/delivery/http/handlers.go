@@ -5,7 +5,7 @@ import (
 
 	"github.com/monitoror/monitoror/models"
 	"github.com/monitoror/monitoror/monitorables/ping"
-	pingModels "github.com/monitoror/monitoror/monitorables/ping/models"
+	pingModels "github.com/monitoror/monitoror/monitorables/ping/api/models"
 
 	"github.com/labstack/echo/v4"
 )

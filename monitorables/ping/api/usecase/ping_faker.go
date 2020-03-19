@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/monitoror/monitoror/models"
-	"github.com/monitoror/monitoror/monitorables/ping"
-	pingModels "github.com/monitoror/monitoror/monitorables/ping/models"
+	"github.com/monitoror/monitoror/monitorables/ping/api"
+	pingModels "github.com/monitoror/monitoror/monitorables/ping/api/models"
 	"github.com/monitoror/monitoror/pkg/monitoror/faker"
 	"github.com/monitoror/monitoror/pkg/monitoror/utils/nonempty"
 )
@@ -25,12 +25,12 @@ var availableStatuses = faker.Statuses{
 	{models.FailedStatus, time.Second * 30},
 }
 
-func NewPingUsecase() ping.Usecase {
+func NewPingUsecase() api.Usecase {
 	return &pingUsecase{make(map[string]time.Time)}
 }
 
 func (pu *pingUsecase) Ping(params *pingModels.PingParams) (tile *models.Tile, err error) {
-	tile = models.NewTile(ping.PingTileType)
+	tile = models.NewTile(api.PingTileType)
 	tile.Label = params.Hostname
 
 	// Code

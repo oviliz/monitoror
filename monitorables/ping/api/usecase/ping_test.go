@@ -6,9 +6,9 @@ import (
 	"time"
 
 	"github.com/monitoror/monitoror/models"
-	. "github.com/monitoror/monitoror/monitorables/ping"
-	"github.com/monitoror/monitoror/monitorables/ping/mocks"
-	pingModels "github.com/monitoror/monitoror/monitorables/ping/models"
+	"github.com/monitoror/monitoror/monitorables/ping/api"
+	"github.com/monitoror/monitoror/monitorables/ping/api/mocks"
+	pingModels "github.com/monitoror/monitoror/monitorables/ping/api/models"
 
 	"github.com/stretchr/testify/assert"
 	. "github.com/stretchr/testify/mock"
@@ -30,7 +30,7 @@ func TestUsecase_Ping_Success(t *testing.T) {
 	}
 
 	// Expected
-	eTile := models.NewTile(PingTileType).WithValue(models.MillisecondUnit)
+	eTile := models.NewTile(api.PingTileType).WithValue(models.MillisecondUnit)
 	eTile.Label = param.Hostname
 	eTile.Status = models.SuccessStatus
 	eTile.Value.Values = append(eTile.Value.Values, "1000")
@@ -58,7 +58,7 @@ func TestUsecase_Ping_Fail(t *testing.T) {
 	}
 
 	// Expected
-	eTile := models.NewTile(PingTileType)
+	eTile := models.NewTile(api.PingTileType)
 	eTile.Label = param.Hostname
 	eTile.Status = models.FailedStatus
 

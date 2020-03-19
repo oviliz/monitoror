@@ -3,7 +3,7 @@ package router
 import (
 	"fmt"
 
-	"github.com/monitoror/monitoror/service/options"
+	"github.com/monitoror/monitoror/models/options"
 
 	"github.com/monitoror/monitoror/middlewares"
 

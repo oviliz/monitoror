@@ -6,22 +6,22 @@ import (
 	"fmt"
 
 	"github.com/monitoror/monitoror/models"
-	"github.com/monitoror/monitoror/monitorables/ping"
-	pingModels "github.com/monitoror/monitoror/monitorables/ping/models"
+	"github.com/monitoror/monitoror/monitorables/ping/api"
+	pingModels "github.com/monitoror/monitoror/monitorables/ping/api/models"
 )
 
 type (
 	pingUsecase struct {
-		repository ping.Repository
+		repository api.Repository
 	}
 )
 
-func NewPingUsecase(repository ping.Repository) ping.Usecase {
+func NewPingUsecase(repository api.Repository) api.Usecase {
 	return &pingUsecase{repository}
 }
 
 func (pu *pingUsecase) Ping(params *pingModels.PingParams) (tile *models.Tile, err error) {
-	tile = models.NewTile(ping.PingTileType)
+	tile = models.NewTile(api.PingTileType)
 	tile.Label = params.Hostname
 
 	ping, err := pu.repository.ExecutePing(params.Hostname)

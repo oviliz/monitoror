@@ -5,12 +5,15 @@ import (
 	"reflect"
 	"strings"
 
+	pkgConfig "github.com/monitoror/monitoror/pkg/monitoror/config"
+
 	"github.com/spf13/viper"
 )
 
 const EnvPrefix = "MO"
-const DefaultVariant = "default"
+const MonitorablePrefix = "MONITORABLE"
 
+const DefaultVariant = "default"
 const DefaultInitialMaxDelay = 1700
 
 type (
@@ -183,7 +186,11 @@ func InitConfig() *Config {
 	return &config
 }
 
-// Maybe move this
+// -------- Config Utility function ---------
+func LoadMonitorableConfig(conf interface{}, defaultConf interface{}) {
+	pkgConfig.LoadConfig(fmt.Sprintf("%s_%s", EnvPrefix, MonitorablePrefix), DefaultVariant, conf, defaultConf)
+}
+
 func GetVariantsFromConfig(conf interface{}) []string {
 	var variants []string
 	if reflect.TypeOf(conf).Kind() == reflect.Map {

@@ -1,8 +1,8 @@
-package ping
+package api
 
 import (
 	"github.com/monitoror/monitoror/models"
-	pingModels "github.com/monitoror/monitoror/monitorables/ping/models"
+	pingModels "github.com/monitoror/monitoror/monitorables/ping/api/api/models"
 )
 
 const (

@@ -1,6 +1,6 @@
 package config
 
-import "github.com/monitoror/monitoror/config"
+import coreConfig "github.com/monitoror/monitoror/config"
 
 type (
 	Ping struct {
@@ -15,5 +15,5 @@ var Default = &Ping{
 	Count:           2,
 	Timeout:         1000,
 	Interval:        100,
-	InitialMaxDelay: config.DefaultInitialMaxDelay,
+	InitialMaxDelay: coreConfig.DefaultInitialMaxDelay,
 }

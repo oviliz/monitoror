@@ -9,8 +9,8 @@ import (
 	"testing"
 
 	"github.com/monitoror/monitoror/models"
-	. "github.com/monitoror/monitoror/monitorables/ping"
-	"github.com/monitoror/monitoror/monitorables/ping/mocks"
+	"github.com/monitoror/monitoror/monitorables/ping/api"
+	"github.com/monitoror/monitoror/monitorables/ping/api/mocks"
 
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/assert"
@@ -32,7 +32,7 @@ func TestDelivery_PingHandler_Success(t *testing.T) {
 	// Init
 	ctx, res := initEcho()
 
-	tile := models.NewTile(PingTileType)
+	tile := models.NewTile(api.PingTileType)
 	tile.Status = models.SuccessStatus
 
 	mockUsecase := new(mocks.Usecase)
